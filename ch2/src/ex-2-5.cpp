@@ -10,20 +10,22 @@ using std::ceil;
 
 /*
 Desired output:
-********
-*      *
-*      *
-********
+*****
+*   *
+*   *
+*   *
+*****
 
-******
-*    *
-*    *
-******
+***********
+*         *
+***********
 
-   *
-  * *
- *   *
-*******
+*
+**
+* *
+*  *
+*   *
+******
 */
 
 void print_square(const int side) {
@@ -55,14 +57,12 @@ void print_rectangle(const int width, const int height) {
 }
 
 void print_triangle(const int base) {
-    // height is half the base, rounding up
-    const int height = ceil(float(base) / 2);
-    for (int row = 0; row != height; ++row ) {
-        const int col_width = base - (height - row);
-        for (int col = 0; col != col_width + 1; ++col) {
-            if (row == height - 1 // base row: all *'s
-                || col == (height - 1) - row
-                || col == (height - 1) + row
+    for (int row = 0; row != base; ++row ) {
+        const int col_width = row + 1;
+        for (int col = 0; col != col_width; ++col) {
+            if (row == base - 1 // base row: all *'s
+                || col == 0
+                || col == col_width - 1
             )
                 cout << '*';
             else
@@ -76,7 +76,7 @@ int main() {
     const int square_side = 5;
     const int rect_width  = 11;
     const int rect_height = 3;
-    const int tri_base    = 10;
+    const int tri_base    = 6;
 
     print_square(square_side);
     cout << endl;
