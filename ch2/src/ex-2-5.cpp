@@ -1,12 +1,9 @@
 // Exercise 2-5. Write a set of "*" characters so that they form a square, a rectangle, and a triangle.
 
-#include <cmath>
 #include <iostream>
 
 using std::cout;
 using std::endl;
-
-using std::ceil;
 
 /*
 Desired output:
