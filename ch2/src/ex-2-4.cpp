@@ -8,7 +8,6 @@ using std::cin;
 using std::endl;
 using std::cout;
 using std::string;
-using std::stoi;
 
 void print_message_with_frame(string message, const int pad) {
     // the number of rows and columns to write
@@ -65,12 +64,9 @@ int main() {
     // cout << endl;
     cout << "What size padding shall we use for the frame? ";
 
-    // read the value
-    string pad_input;
-    cin >> pad_input;
-
-    // parse as int
-    const int pad = stoi(pad_input);
+    // read the value as an int
+    int pad;
+    cin >> pad;
 
     // write a blank line to separate the output from the input
     cout << endl;

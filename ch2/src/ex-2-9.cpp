@@ -6,22 +6,21 @@
 using std::cin;
 using std::cout;
 using std::endl;
-using std::string;
-using std::stoi;
 
 int get_input_as_int() {
-    string raw_input;
-    cin >> raw_input;
-    return stoi(raw_input);
+    int value;
+    cin >> value;
+    return value;
 }
 
 int main() {
     cout << "Enter a number: ";
-    const int num1 = get_input_as_int();
-    // cout << endl;
+    int num1;
+    cin >> num1;
+
     cout << "Enter another number: ";
-    // cout << endl;
-    const int num2 = get_input_as_int();
+    int num2;
+    cin >> num2;
 
     if (num1 == num2) {
         cout << num1 << " is equal to " << num2;
