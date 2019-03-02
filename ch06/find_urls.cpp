@@ -16,6 +16,8 @@ using std::string;
 #include <vector>
 using std::vector;
 
+#include "find_urls.h"
+
 typedef string::const_iterator iter;
 
 // Is the given character a valid URL character?
