@@ -1,0 +1,6 @@
+A URL like http://urls.cool
+is a very fine thing.
+I love all kinds, like https://allurls.com
+Some URLs are invalid,
+like ://this
+and like that://
