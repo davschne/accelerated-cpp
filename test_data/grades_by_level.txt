@@ -1,0 +1,6 @@
+G Ricky   0 100  98   0   0   0
+G Annie   0   0   0 100 100 100
+U Bobby 100   0   0   0   0
+U Jenny   0   0 100  50   0
+U Alice  85  80  78  89  91
+U Vicky 100 100 100 100 100
