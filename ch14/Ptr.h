@@ -9,14 +9,14 @@ public:
     void make_unique() {
         if (*refptr != 1) {
             --*refptr;
-            refptr = new size_t {1};
+            refptr = new std::size_t {1};
             p = p ? clone(p) : nullptr;
         }
     }
 
     // the rest is essentially the same as `Ref_handle`
-    Ptr():     p {nullptr}, refptr {new size_t(1)} { }
-    Ptr(T* t): p {t},       refptr {new size_t(1)} { }
+    Ptr():     p {nullptr}, refptr {new std::size_t(1)} { }
+    Ptr(T* t): p {t},       refptr {new std::size_t(1)} { }
 
     Ptr(const Ptr& h): p {h.p}, refptr {h.refptr} {
         ++*refptr;
