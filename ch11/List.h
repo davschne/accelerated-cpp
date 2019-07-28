@@ -5,16 +5,71 @@
 
 #include <cctype>
 
+template<class T> class List;
+
+template<class T>
+class ListNode {
+    friend List<T>;
+public:
+    // make a ListNode with a value
+    explicit ListNode(const T& v) :
+        h {v},
+        t {nullptr}
+    { }
+
+    // make a ListNode using a pair of iterators
+    template<class It>
+    ListNode(It begin, It end) :
+        h {*begin},
+        t {(++begin != end) ? new ListNode<T>(begin, end) : nullptr}
+    { }
+
+    // copy
+    ListNode(const ListNode& n) :
+        h {n.h},
+        t {n.t ? new ListNode(*n.t) : nullptr}
+    { }
+
+    ListNode& operator=(const ListNode& n) {
+        if (this != &n) {
+            h = n.h;
+            delete t; // if nullptr, should be no-op
+            t = n.t ? new ListNode(*n.t) : nullptr;
+        }
+        return *this;
+    }
+
+    // move
+    ListNode(ListNode&& n) :
+        h {n.h},
+        t {n.t}
+    {
+        n.t = nullptr;
+    }
+
+    ListNode& operator=(ListNode&& n) {
+        h = n.h;
+        swap(t, n.t);
+        return *this;
+    }
+
+    ~ListNode() { delete t; }
+
+private:
+    T h;
+    ListNode* t;
+};
+
 template<class T>
 class List {
 public:
     class iterator {
     public:
         iterator() : p {nullptr} { }
-        explicit iterator(List* l) : p {l} { }
+        explicit iterator(ListNode<T>* l) : p {l} { }
 
         T& operator*() { return p->h; }
-        List<T>* operator->() { return p; }
+        ListNode<T>* operator->() { return p; }
 
         iterator& operator++() {
             p = p->t;
@@ -29,16 +84,16 @@ public:
             return !(*this == rhs);
         }
     private:
-        List* p;
+        ListNode<T>* p;
     };
 
     class const_iterator {
     public:
         const_iterator() : p {nullptr} { }
-        explicit const_iterator(const List* l) : p {l} { }
+        explicit const_iterator(const ListNode<T>* l) : p {l} { }
 
         const T& operator*() const { return p->h; }
-        const List<T>* operator->() const { return p; }
+        const ListNode<T>* operator->() const { return p; }
 
         const_iterator& operator++() {
             p = p->t;
@@ -53,52 +108,42 @@ public:
             return !(*this == rhs);
         }
     private:
-        const List* p;
+        const ListNode<T>* p;
     };
 
     using size_type = std::size_t;
 
-    // make a one-element List with a value
-    explicit List(const T& v) :
-        h {v},
-        t {nullptr}
-    { }
-
-    // make a List using an iterator
+    // default constructor: make an empty list
+    List() : p {nullptr} { }
+    // make a one-lement List with a value
+    explicit List(const T& v) : p {new ListNode<T>(v)} { }
+    // make a List using a pair of iterators
     template<class It>
     List(It begin, It end) :
-        h {*begin},
-        t {(++begin != end) ? new List<T>(begin, end) : nullptr}
+        p {begin != end ? new ListNode<T>(begin, end) : nullptr}
     { }
 
     // copy
     List(const List& l) :
-        h {l.h},
-        t {l.t ? new List(*l.t) : nullptr}
+        p {l.p ? new ListNode<T>(*l.p) : nullptr}
     { }
-
     List& operator=(const List& l) {
-        h = l.h;
-        delete t; // if nullptr, should be no-op
-        t = l.t ? new List(*l.t) : nullptr;
+        if (this != &l) {
+            delete p;
+            p = l.p;
+        }
+        return *this;
     }
 
     // move
-    List(List&& l) :
-        h {l.h},
-        t {l.t}
-    {
-        l.t = nullptr;
-    }
-
+    List(List&& l) : p {l.p} { l.p = nullptr; }
     List& operator=(List&& l) {
-        h = l.h;
-        swap(t, l.t);
+        swap(p, l.p);
     }
 
-    ~List() { delete t; }
+    ~List() { delete p; }
 
-    bool operator==(const List& l) const {
+    bool operator==(const List<T>& l) const {
         const_iterator this_it {begin()};
         const_iterator that_it {l.begin()};
         while (this_it != end() && that_it != l.end()) {
@@ -109,20 +154,20 @@ public:
         // If we've reached the end of both, the Lists are equal; otherwise not.
         return this_it == end() && that_it == l.end();
     }
-    bool operator!=(const List& l) const {
+    bool operator!=(const List<T>& l) const {
         return !(*this == l);
     }
 
-    const T& head() const { return h; }
-    T& head() { return h; }
+    const T& head() const { return p->h; }
+    T& head() { return p->h; }
 
-    const List& tail() const { return *t; }
-    List& tail() { return *t; }
+    const List& tail() const { return new List(*p); }
+    List& tail() { return new List(*p); }
 
-    const_iterator begin() const { return const_iterator {this}; }
+    const_iterator begin() const { return const_iterator {p}; }
     const_iterator   end() const { return const_iterator {}; }
 
-    iterator begin() { return iterator {this}; }
+    iterator begin() { return iterator {p}; }
     iterator   end() { return iterator {}; }
 
     size_type size() const {
@@ -143,12 +188,11 @@ public:
             ++it;
             ++count;
         }
-        it->t = new List(v);
+        it->t = new ListNode<T>(v);
     }
 
 private:
-    T h;
-    List* t;
+    ListNode<T>* p;
 };
 
 #endif
