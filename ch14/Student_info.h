@@ -1,3 +1,6 @@
+#ifndef STUDENT_INFO_H
+#define STUDENT_INFO_H
+
 // 14.1.2/258
 
 // Student_info rewritten to defer memory management to Handle
@@ -46,3 +49,5 @@ public:
 private:
     Handle<Core> cp;
 };
+
+#endif

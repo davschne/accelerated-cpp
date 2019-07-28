@@ -1,3 +1,6 @@
+#ifndef PTR_H
+#define PTR_H
+
 // 14.3/263, 14.4.1/266
 
 // handle that only copies the underlying object if needed (i.e. when modified)
@@ -56,3 +59,5 @@ template<class T>
 T* clone(const T* tp) {
     return tp->clone();
 }
+
+#endif

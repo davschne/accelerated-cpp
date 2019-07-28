@@ -1,3 +1,6 @@
+#ifndef REF_HANDLE_H
+#define REF_HANDLE_H
+
 // 14.2/260
 
 // reference-counted handle that manages memory for a polymorphic object
@@ -52,3 +55,5 @@ private:
     // pointer to a count of Ref_handles (shared among copies)
     std::size_t* refptr;
 };
+
+#endif

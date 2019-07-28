@@ -1,3 +1,6 @@
+#ifndef HANDLE_H
+#define HANDLE_H
+
 // 14.1.1/255
 
 // handle that manages memory for polymorphic object
@@ -54,3 +57,5 @@ public:
 private:
     T* p;
 };
+
+#endif

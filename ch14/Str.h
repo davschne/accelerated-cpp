@@ -1,3 +1,6 @@
+#ifndef STR_H
+#define STR_H
+
 //14.4/264-265, 14.4.1/267
 
 // implementation of string that shares the underlying data when possible
@@ -67,3 +70,5 @@ template<>
 Vec<char>* clone(const Vec<char>* vp) {
     return new Vec<char>(*vp);
 }
+
+#endif
